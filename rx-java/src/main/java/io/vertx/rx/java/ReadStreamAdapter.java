@@ -1,7 +1,6 @@
 package io.vertx.rx.java;
 
 import io.vertx.core.streams.ReadStream;
-
 import java.util.function.Function;
 
 /**
@@ -12,4 +11,5 @@ public class ReadStreamAdapter<T> extends io.vertx.lang.rxjava.ReadStreamAdapter
   public ReadStreamAdapter(ReadStream<T> stream) {
     super(stream, Function.<T>identity());
   }
+  
 }

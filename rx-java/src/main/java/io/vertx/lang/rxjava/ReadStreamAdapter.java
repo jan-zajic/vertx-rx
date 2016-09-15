@@ -1,6 +1,6 @@
 package io.vertx.lang.rxjava;
 
-import io.vertx.core.streams.ReadStream;
+import io.vertx.rxjava.core.streams.ReadStream;
 import rx.Observable;
 import rx.Producer;
 import rx.Subscriber;
@@ -19,15 +19,20 @@ import java.util.function.Function;
  */
 public class ReadStreamAdapter<J, R> implements Observable.OnSubscribe<R> {
 
-  private final ReadStream<J> stream;
+  private final io.vertx.core.streams.ReadStream<J> stream;
   private final Function<J, R> adapter;
   private final AtomicReference<ProducerImpl> subRef = new AtomicReference<>();
 
-  public ReadStreamAdapter(ReadStream<J> stream, Function<J, R> adapter) {
-    this.stream = stream;
+  public ReadStreamAdapter(ReadStream<R> stream, Function<J, R> adapter) {
+	this.stream = (io.vertx.core.streams.ReadStream<J>) stream.getDelegate();
     this.adapter = adapter;
   }
 
+  public ReadStreamAdapter(io.vertx.core.streams.ReadStream<J> stream, Function<J, R> adapter) {
+	this.stream = stream;
+	this.adapter = adapter;  
+  }
+  
   /**
    * @return the number of expected events for the current subscriber or -1 is there is no subscriber
    */

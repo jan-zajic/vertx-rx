@@ -17,9 +17,9 @@ methods for converting objects between Vert.x core API and RxJava API.
 
 === Read stream support
 
-RxJava observable is a perfect match for Vert.x `ReadStream` class : both provide a flow of items.
+RxJava observable is a perfect match for Vert.x `ReadStream` class : both provides provides a flow of items.
 
-The `link:../../apidocs/io/vertx/rx/java/RxHelper.html#toObservable-io.vertx.core.streams.ReadStream-[RxHelper.toObservable]` static methods convert
+The `link:../../apidocs/io/vertx/rx/java/RxHelper.html#toObservable-io.vertx.core.streams.ReadStream-[RxHelper.toObservable]` static methods converts
 a Vert.x read stream to an `rx.Observable`:
 
 [source,java]
@@ -45,7 +45,7 @@ fs.open("/data.txt", new OpenOptions(), result -> {
 });
 ----
 
-Such observables are *hot* observables, i.e. they will produce notifications regardless of subscriptions.
+Such observables are *hot* observables, i.e they will produce notifications regardless of subscriptions.
 
 === Handler support
 
@@ -65,11 +65,11 @@ The _Rxified_ Vert.x API does not provide a specific API for handler.
 
 === Async result support
 
-The Vert.x `Handler<AsyncResult<T>>` construct occuring as last parameter of an asynchronous method can
+The Vert.x `Handler<AsyncResult<T>>` construct occuring as last parameter of an asynchronous methods can
 be mapped to an observable of a single element:
 
 - when the callback is a success, the observer `onNext` method is called with the item
-and the `onComplete` method is immediately invoked after
+and the `onComplete` method is immediatly invoked after
 - when the callback is a failure, the observer `onError` method is called
 
 The `link:../../apidocs/io/vertx/rx/java/RxHelper.html#observableFuture--[RxHelper.observableFuture]` method creates an `link:../../apidocs/io/vertx/rx/java/ObservableFuture.html[ObservableFuture]`:
@@ -144,13 +144,13 @@ vertx.createHttpServer(
     );
 ----
 
-Such observables are *cold* observables, i.e. they will produce notifications on request.
+Such observables are *cold* observables, i.e they will produce notifications on request.
 
 === Scheduler support
 
 The reactive extension sometimes needs to schedule actions, for instance `Observable#timer` creates and returns
 a timer that emit periodic events. By default, scheduled actions are managed by RxJava, it means that the
-timer threads are not Vert.x threads and therefore not executing in a Vert.x event loop.
+timer thread are not Vert.x threads and therefore not executing in a Vert.x event loop.
 
 When an RxJava method deals with a scheduler, it accepts an overloaded method accepting an extra `rx.Scheduler`,
 the `link:../../apidocs/io/vertx/rx/java/RxHelper.html#scheduler-io.vertx.core.Vertx-[RxHelper.scheduler]`  method will return a scheduler that can be used
@@ -195,7 +195,7 @@ RxJavaSchedulersHook hook = io.vertx.rxjava.core.RxHelper.schedulerHook(vertx);
 rx.plugins.RxJavaPlugins.getInstance().registerSchedulersHook(hook);
 ----
 
-=== Json unmarshalling
+=== Json unmashalling
 
 The `link:../../apidocs/io/vertx/rxjava/core/RxHelper.html#unmarshaller-java.lang.Class-[RxHelper.unmarshaller]` creates an `rx.Observable.Operator` that
 transforms an `Observable<Buffer>` in json format into an object observable:
@@ -227,45 +227,6 @@ fileSystem.open("/data.txt", new OpenOptions(), result -> {
   );
 });
 ----
-
-=== Deploying a Verticle
-
-The Rxified API cannot deploy an existing Verticle instance, the helper `link:../../apidocs/io/vertx/rx/java/RxHelper.html#observableFuture--[RxHelper.observableFuture]` method
-provides a solution to that.
-
-The `link:../../apidocs/io/vertx/rxjava/core/RxHelper.html#deployVerticle-io.vertx.rxjava.core.Vertx-io.vertx.core.Verticle-[RxHelper.deployVerticle]` does it automatically
-for you, it deploys a `Verticle` and returns an `Observable<String>` of the deployment ID.
-
-[source,java]
-----
-Observable<String> deployment = RxHelper.deployVerticle(vertx, verticle);
-
-deployment.subscribe(id -> {
-  // Deployed
-}, err -> {
-  // Could not deploy
-});
-----
-
-=== HttpClient GET on subscription
-
-The `link:../../apidocs/io/vertx/rxjava/core/RxHelper.html#get-io.vertx.rxjava.core.http.HttpClient-int-java.lang.String-java.lang.String-[RxHelper.get]`
-is a convenient helper method that performs an HTTP GET upon subscription:
-
-[source,java]
-----
-Observable<HttpClientResponse> get = RxHelper.get(client, "http://the-server");
-
-// Do the request
-get.subscribe(resp -> {
-  // Got response
-}, err -> {
-  // Something went wrong
-});
-----
-
-WARNING: this API is different from the HttpClient that performs the GET request when the method is called and returns
-a one shot `Observable`.
 
 = Rxified API
 
@@ -331,7 +292,7 @@ MessageConsumer<String> consumer = eb.<String>consumer("the-address");
 Observable<String> observable = consumer.bodyStream().toObservable();
 ----
 
-RxJava map/reduce composition style can then be used:
+RxJava map/reduce composition style can be then be used:
 
 [source,java]
 ----
@@ -513,7 +474,7 @@ stream.toObservable().subscribe(
 );
 ----
 
-The `link:../../apidocs/io/vertx/rxjava/core/http/WebSocket.html[WebSocket]` can then be turned into an `Observable<Buffer>` easily:
+The `link:../../apidocs/io/vertx/rxjava/core/http/WebSocket.html[WebSocket]` can then be turned into an `Observable<Buffer>` easily
 
 [source,java]
 ----
@@ -529,7 +490,7 @@ socketObservable.subscribe(
 
 === Websocket server
 
-The `link:../../apidocs/io/vertx/rxjava/core/http/HttpServer.html#websocketStream--[websocketStream]` provides a callback for each incoming
+The {@link io.vertx.rxjava.core.http.HttpServer#websocketStream()` provides a callback for each incoming
 connection:
 
 [source,java]

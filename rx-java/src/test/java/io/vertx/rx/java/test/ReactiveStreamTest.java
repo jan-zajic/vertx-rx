@@ -12,7 +12,7 @@ public class ReactiveStreamTest extends AbstractBackPressureTest {
 
   @Override
   protected Observable<Buffer> toObservable(BufferReadStreamImpl stream) {
-    return RxHelper.toObservable(stream, vertx);
+    return RxHelper.toObservable(stream);
   }
 
   @Override
