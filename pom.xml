@@ -23,7 +23,7 @@
   </modules>
 
   <properties>
-    <stack.version>3.4.0-SNAPSHOT</stack.version>
+    <stack.version>3.3.3</stack.version>
   </properties>
 
   <dependencyManagement>
